@@ -1,0 +1,108 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+
+% Geometry setup
+\geometry{
+    top=3cm,
+    bottom=3cm,
+    left=3cm,
+    right=3cm
+}
+
+% Fonts
+\setmainfont{Inter}[
+    Path = ,
+    UprightFont = *,
+    BoldFont = *-Bold,
+    ItalicFont = *-Italic,
+    Extension = .otf,
+    Scale = 1.0,
+    Ligatures = TeX
+] % We can fall back to standard fonts if Inter is not installed system-wide. Let's use a standard sans-serif first.
+\renewcommand{\familydefault}{\sfdefault}
+
+% Colors
+\definecolor{primary}{HTML}{111827}
+\definecolor{secondary}{HTML}{4B5563}
+\definecolor{lightgray}{HTML}{E5E7EB}
+
+% No paragraph indent
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+% Header
+\begin{minipage}[t]{0.5\textwidth}
+    {\huge\bfseries {{senderCompany}}}\\[1ex]
+    \textcolor{secondary}{
+        {{senderAddress}}\\%
+        {{senderEmail}}\\%
+        {{senderPhone}}\\%
+        {{#if senderTaxId}}Tax ID: {{senderTaxId}}{{/if}}
+    }
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+    \raggedleft
+    {\Huge\bfseries\textcolor{lightgray}{INVOICE}}\\[2ex]
+    \textbf{Invoice No:} {{invoiceNumber}}\\%
+    \textbf{Date:} {{issueDate}}\\%
+    \textbf{Due Date:} {{dueDate}}
+\end{minipage}
+
+\vspace{2cm}
+
+% Client info
+\begin{minipage}[t]{0.5\textwidth}
+    \textbf{Billed To:}\\[1ex]
+    \textbf{{{clientName}}}\\%
+    \textcolor{secondary}{
+        {{clientAddress}}\\%
+        {{clientEmail}}
+    }
+\end{minipage}
+
+\vspace{1.5cm}
+
+% Invoice items table
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\textwidth}{X r r r}
+    \textbf{Description} & \textbf{Qty} & \textbf{Rate ({{currency}})} & \textbf{Amount ({{currency}})} \\
+    \hline
+    {{#each items}}
+    {{this.description}} & {{this.quantity}} & {{this.rate}} & {{this.total}} \\
+    {{/each}}
+    \hline
+\end{tabularx}
+
+\vspace{0.5cm}
+\begin{flushright}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{r @{\hspace{1cm}} r}
+        \textbf{Subtotal:} & {{subtotal}} \\
+        {{#if taxRate}}\textbf{Tax ({{taxRate}}\%):} & {{taxAmount}} \\{{/if}}
+        \textbf{Total Due:} & \textbf{\Large {{total}}} \\
+    \end{tabular}
+\end{flushright}
+
+\vspace{2cm}
+{{#if notes}}
+\textbf{Notes:}\\[0.5ex]
+\textcolor{secondary}{{{notes}}}
+{{/if}}
+
+\vspace{1cm}
+{{#if paymentTerms}}
+\textbf{Payment Terms:}\\[0.5ex]
+\textcolor{secondary}{{{paymentTerms}}}
+{{/if}}
+
+\end{document}

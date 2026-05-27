@@ -1,0 +1,92 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{colortbl}
+
+% Geometry setup
+\geometry{top=2.5cm, bottom=3cm, left=2.5cm, right=2.5cm}
+
+% Fonts
+\setmainfont{Helvetica Neue}[
+    UprightFont = *,
+    BoldFont = *-Bold,
+    ItalicFont = *-Italic,
+    Ligatures = TeX
+]
+\renewcommand{\familydefault}{\sfdefault}
+
+% Colors
+\definecolor{brand}{HTML}{2563EB} % Blue
+\definecolor{textmain}{HTML}{1F2937}
+\definecolor{textlight}{HTML}{6B7280}
+\definecolor{bglight}{HTML}{F3F4F6}
+
+\setlength{\parindent}{0pt}
+\color{textmain}
+
+\begin{document}
+
+% Header with background color block
+\begin{minipage}[t]{0.6\textwidth}
+    {\huge\bfseries\textcolor{brand}{{{senderCompany}}}}\\[1.5ex]
+    \textcolor{textlight}{
+        {{senderAddress}}\\%
+        {{senderEmail}} | {{senderPhone}}
+    }
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.35\textwidth}
+    \raggedleft
+    {\Large\bfseries INVOICE}\\[1ex]
+    \textcolor{textlight}{# {{invoiceNumber}}}\\[1ex]
+    \textbf{Date:} {{issueDate}}\\%
+    \textbf{Due Date:} {{dueDate}}
+\end{minipage}
+
+\vspace{2cm}
+
+% Client info
+\begin{minipage}[t]{\textwidth}
+    \textcolor{brand}{\textbf{BILL TO}}\\[1ex]
+    \textbf{{{clientName}}}\\%
+    \textcolor{textlight}{
+        {{clientAddress}}\\%
+        {{clientEmail}}
+    }
+\end{minipage}
+
+\vspace{1.5cm}
+
+% Invoice items table
+\renewcommand{\arraystretch}{1.8}
+\begin{tabularx}{\textwidth}{X r r r}
+    \rowcolor{bglight}
+    \textbf{Description} & \textbf{Qty} & \textbf{Rate} & \textbf{Amount} \\
+    {{#each items}}
+    {{this.description}} & {{this.quantity}} & {{this.rate}} & {{this.total}} \\
+    {{/each}}
+\end{tabularx}
+
+\vspace{0.5cm}
+\begin{flushright}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{r @{\hspace{1cm}} r}
+        \textcolor{textlight}{Subtotal:} & {{subtotal}} \\
+        {{#if taxRate}}\textcolor{textlight}{Tax ({{taxRate}}\%):} & {{taxAmount}} \\{{/if}}
+        \rowcolor{bglight}
+        \textbf{Total Due {{currency}}:} & \textbf{\Large {{total}}} \\
+    \end{tabular}
+\end{flushright}
+
+\vspace{2cm}
+{{#if notes}}
+\textcolor{brand}{\textbf{NOTES}}\\[0.5ex]
+\textcolor{textlight}{{{notes}}}
+{{/if}}
+
+\end{document}

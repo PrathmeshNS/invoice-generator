@@ -1,0 +1,85 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+% Geometry setup
+\geometry{top=3cm, bottom=3cm, left=3.5cm, right=3.5cm}
+
+% Fonts
+\setmainfont{IBM Plex Sans}[
+    UprightFont = *,
+    BoldFont = *-Bold,
+    ItalicFont = *-Italic,
+    Ligatures = TeX
+]
+\renewcommand{\familydefault}{\rmdefault} % Let's use standard default for corporate, or serif if preferred. We'll stick to sans for now.
+
+% Colors
+\definecolor{brand}{HTML}{000000} % Classic Black
+\definecolor{textmain}{HTML}{333333}
+\definecolor{textlight}{HTML}{666666}
+
+\setlength{\parindent}{0pt}
+\color{textmain}
+
+\begin{document}
+
+\begin{center}
+    {\huge\bfseries\textcolor{brand}{\MakeUppercase{{{senderCompany}}}}}\\[2ex]
+    \textcolor{textlight}{
+        {{senderAddress}} | {{senderEmail}} | {{senderPhone}}
+    }
+\end{center}
+
+\vspace{1cm}
+\hrule
+\vspace{1cm}
+
+\begin{minipage}[t]{0.5\textwidth}
+    \textbf{TO:}\\[1ex]
+    \textbf{{{clientName}}}\\%
+    {{clientAddress}}\\%
+    {{clientEmail}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+    \textbf{INVOICE NO:} {{invoiceNumber}}\\[1ex]
+    \textbf{DATE:} {{issueDate}}\\[1ex]
+    \textbf{DUE DATE:} {{dueDate}}
+\end{minipage}
+
+\vspace{1.5cm}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\textwidth}{X r r r}
+    \toprule
+    \textbf{DESCRIPTION} & \textbf{QTY} & \textbf{RATE} & \textbf{AMOUNT} \\
+    \midrule
+    {{#each items}}
+    {{this.description}} & {{this.quantity}} & {{this.rate}} & {{this.total}} \\
+    {{/each}}
+    \bottomrule
+\end{tabularx}
+
+\vspace{0.5cm}
+\begin{flushright}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{r @{\hspace{1cm}} r}
+        Subtotal: & {{subtotal}} \\
+        {{#if taxRate}}Tax ({{taxRate}}\%): & {{taxAmount}} \\{{/if}}
+        \textbf{TOTAL {{currency}}:} & \textbf{{{total}}} \\
+    \end{tabular}
+\end{flushright}
+
+\vspace{2cm}
+\begin{center}
+\textcolor{textlight}{\textit{{{notes}}}}\\[1ex]
+\textcolor{textlight}{\textit{{{paymentTerms}}}}
+\end{center}
+
+\end{document}
