@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
-import { FileText, Terminal, ChevronRight } from "lucide-react"
+import { Terminal, ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 export default function Landing() {
