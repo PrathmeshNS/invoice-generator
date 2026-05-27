@@ -51,29 +51,17 @@ export default function Landing() {
             Generate Invoice
             <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
-          <Button size="lg" variant="outline" className="h-12 px-8 text-base">
+          <Button 
+            size="lg" 
+            variant="outline" 
+            className="h-12 px-8 text-base"
+            onClick={() => window.open('https://github.com/PrathmeshNS/invoice-generator.git', '_blank')}
+          >
             <Terminal className="mr-2 h-4 w-4" />
             GitHub
           </Button>
         </motion.div>
       </div>
-      
-      {/* Mockup section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.4 }}
-        className="w-full max-w-6xl mx-auto px-6 mt-12 pb-24 z-10"
-      >
-        <div className="rounded-xl border border-border bg-card shadow-2xl overflow-hidden flex items-center justify-center p-1 md:p-4">
-          <div className="w-full aspect-video bg-muted/30 rounded-lg flex items-center justify-center border border-border/50">
-            <div className="flex flex-col items-center text-muted-foreground">
-              <FileText className="h-12 w-12 mb-4 opacity-50" />
-              <p className="font-medium">App Preview</p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
     </div>
   )
 }
